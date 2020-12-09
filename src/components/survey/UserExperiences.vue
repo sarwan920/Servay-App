@@ -3,7 +3,7 @@
     <base-card>
       <h2>Submitted Experiences</h2>
       <div>
-        <base-button>Load Submitted Experiences</base-button>
+        <base-button @click="loadExperiences">Load Submitted Experiences</base-button>
       </div>
       <ul>
         <survey-result
@@ -18,12 +18,44 @@
 </template>
 
 <script>
-import SurveyResult from './SurveyResult.vue';
-
+import SurveyResult from "./SurveyResult.vue";
+import axios from "axios";
 export default {
-  props: ['results'],
   components: {
     SurveyResult,
+  },
+  data() {
+    return {
+      results: [],
+    };
+  },
+  methods: {
+    loadExperiences() {
+      axios
+        .get("https://survey-2070f-default-rtdb.firebaseio.com/surveys.json")
+        .then((res) => {
+         const data=res.data;
+         const results=[];
+         for(const id in res.data){
+           results.push({id:id , name:data[id].name, rating:data[id].rating})
+         }
+          // console.log(res.data);
+          this.results=results;
+          
+        })
+        
+
+      // fetch("https://survey-2070f-default-rtdb.firebaseio.com/surveys.json")
+      // .then(response=>{
+      //   if(response.ok){
+      //     return response.json();
+      //   }
+      // })
+      // .then(data=>{
+      //   console.log(data);
+      // })
+       
+    },
   },
 };
 </script>
