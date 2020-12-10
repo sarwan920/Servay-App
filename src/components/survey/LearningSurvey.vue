@@ -57,7 +57,7 @@ export default {
         return;
       }
       this.invalidInput = false;
-
+      alert('Your Experience has been shared successfully!');
       // this.$emit('survey-submit', {
       //   userName: this.enteredName,
       //   rating: this.chosenRating,
