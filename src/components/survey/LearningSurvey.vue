@@ -29,6 +29,7 @@
         <p
           v-if="invalidInput"
         >One or more input fields are invalid. Please check your provided data.</p>
+        <p v-if="error">{{error}}</p>
         <div>
           <base-button>Submit</base-button>
         </div>
@@ -45,6 +46,7 @@ export default {
       enteredName: '',
       chosenRating: null,
       invalidInput: false,
+      error:null
     };
   },
   // emits: ['survey-submit'],
@@ -60,7 +62,7 @@ export default {
       //   userName: this.enteredName,
       //   rating: this.chosenRating,
       // });
-
+this.error=null;
       axios.post('https://survey-2070f-default-rtdb.firebaseio.com/surveys.json',{
         name:this.enteredName,
         rating:this.chosenRating
@@ -68,8 +70,9 @@ export default {
       .then(res=>{
         console.log(res);
       })
-      .catch(err=>{
-        console.log(err);
+      .catch(error=>{
+        this.error="Error! Please try again later."
+        console.log(error);
       });
       this.enteredName = '';
       this.chosenRating = null;
